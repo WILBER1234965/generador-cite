@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de CITE</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8f9fa;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #007bff;
+      color: white;
+    }
+
+    .delete-btn {
+      color: red;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Generador de CITE</h1>
+  <button onclick="generarCITE()">Generar nuevo CITE</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Código</th>
+        <th>Fecha</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody id="tabla-cites"></tbody>
+  </table>
+
+  <script>
+    let cites = JSON.parse(localStorage.getItem('cites')) || [];
+
+    function guardarCites() {
+      localStorage.setItem('cites', JSON.stringify(cites));
+    }
+
+    function mostrarCites() {
+      const tbody = document.getElementById('tabla-cites');
+      tbody.innerHTML = '';
+      cites.forEach((cite, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${cite.codigo}</td>
+            <td>${cite.fecha}</td>
+            <td><span class="delete-btn" onclick="eliminarCITE(${index})">Eliminar</span></td>
+          </tr>
+        `;
+      });
+    }
+
+    function generarCITE() {
+      const id = cites.length + 1;
+      const año = new Date().getFullYear();
+      const fecha = new Date().toLocaleString();
+      const codigo = `CITE: SUP.ATAJ/TOT ${id}/${año}`;
+      cites.push({ codigo, fecha });
+      guardarCites();
+      mostrarCites();
+    }
+
+    function eliminarCITE(index) {
+      if (confirm('¿Eliminar este CITE?')) {
+        cites.splice(index, 1);
+        guardarCites();
+        mostrarCites();
+      }
+    }
+
+    mostrarCites();
+  </script>
+</body>
+</html>
