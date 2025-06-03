@@ -2,72 +2,136 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Generador de CITE</title>
+  <title>Generador de CITE - ATAJA2 TOTORA</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      cursor: url('https://cur.cursors-4u.net/cursors/cur-13/cur1143.cur'), auto;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f8f9fa;
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
+      background: linear-gradient(to right, #1d3557, #457b9d);
+      color: #f1faee;
+      padding: 40px;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     h1 {
-      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+      animation: slideDown 1s ease-out;
+    }
+
+    .formulario {
+      background: #ffffff11;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 1em;
     }
 
     button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #007bff;
-      color: white;
+      padding: 12px 20px;
+      background: #fca311;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      font-size: 1em;
       cursor: pointer;
-      margin-bottom: 20px;
+      transition: background 0.3s;
     }
 
     button:hover {
-      background: #0056b3;
+      background: #ffb703;
+      transform: scale(1.05);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-top: 30px;
+      animation: fadeInUp 1s ease-in-out;
     }
 
     th, td {
-      padding: 12px;
+      padding: 15px;
       text-align: left;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #ffffff33;
     }
 
     th {
-      background: #007bff;
-      color: white;
+      background: #fca311;
+      color: #000;
     }
 
     .delete-btn {
-      color: red;
+      color: #e63946;
+      font-weight: bold;
       cursor: pointer;
     }
 
     .delete-btn:hover {
       text-decoration: underline;
     }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
-  <h1>Generador de CITE</h1>
-  <button onclick="generarCITE()">Generar nuevo CITE</button>
+
+  <h1>GENERADOR DE CITE - ATAJA2 TOTORA</h1>
+
+  <div class="formulario">
+    <label for="nombreDocumento">Nombre del Documento:</label>
+    <input type="text" id="nombreDocumento" placeholder="Ej: Solicitud de excavadora para canal" />
+
+    <button onclick="generarCITE()">Generar CITE</button>
+  </div>
 
   <table>
     <thead>
       <tr>
         <th>ID</th>
-        <th>Código</th>
+        <th>CITE</th>
+        <th>Nombre Documento</th>
         <th>Fecha</th>
         <th>Eliminar</th>
       </tr>
@@ -90,6 +154,7 @@
           <tr>
             <td>${index + 1}</td>
             <td>${cite.codigo}</td>
+            <td>${cite.nombre}</td>
             <td>${cite.fecha}</td>
             <td><span class="delete-btn" onclick="eliminarCITE(${index})">Eliminar</span></td>
           </tr>
@@ -98,17 +163,24 @@
     }
 
     function generarCITE() {
+      const nombre = document.getElementById('nombreDocumento').value.trim();
+      if (!nombre) {
+        alert("Por favor, escribe el nombre del documento.");
+        return;
+      }
+
       const id = cites.length + 1;
       const año = new Date().getFullYear();
       const fecha = new Date().toLocaleString();
       const codigo = `CITE: SUP.ATAJ/TOT ${id}/${año}`;
-      cites.push({ codigo, fecha });
+      cites.push({ codigo, nombre, fecha });
       guardarCites();
       mostrarCites();
+      document.getElementById('nombreDocumento').value = '';
     }
 
     function eliminarCITE(index) {
-      if (confirm('¿Eliminar este CITE?')) {
+      if (confirm('¿Deseas eliminar este CITE?')) {
         cites.splice(index, 1);
         guardarCites();
         mostrarCites();
@@ -117,5 +189,200 @@
 
     mostrarCites();
   </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de CITE - ATAJA2 TOTORA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      cursor: url('https://cur.cursors-4u.net/cursors/cur-13/cur1143.cur'), auto;
+    }
+
+    body {
+      background: linear-gradient(to right, #1d3557, #457b9d);
+      color: #f1faee;
+      padding: 40px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+      animation: slideDown 1s ease-out;
+    }
+
+    .formulario {
+      background: #ffffff11;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 1em;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: #fca311;
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #ffb703;
+      transform: scale(1.05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      animation: fadeInUp 1s ease-in-out;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ffffff33;
+    }
+
+    th {
+      background: #fca311;
+      color: #000;
+    }
+
+    .delete-btn {
+      color: #e63946;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>GENERADOR DE CITE - ATAJA2 TOTORA</h1>
+
+  <div class="formulario">
+    <label for="nombreDocumento">Nombre del Documento:</label>
+    <input type="text" id="nombreDocumento" placeholder="Ej: Solicitud de excavadora para canal" />
+
+    <button onclick="generarCITE()">Generar CITE</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>CITE</th>
+        <th>Nombre Documento</th>
+        <th>Fecha</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody id="tabla-cites"></tbody>
+  </table>
+
+  <script>
+    let cites = JSON.parse(localStorage.getItem('cites')) || [];
+
+    function guardarCites() {
+      localStorage.setItem('cites', JSON.stringify(cites));
+    }
+
+    function mostrarCites() {
+      const tbody = document.getElementById('tabla-cites');
+      tbody.innerHTML = '';
+      cites.forEach((cite, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${cite.codigo}</td>
+            <td>${cite.nombre}</td>
+            <td>${cite.fecha}</td>
+            <td><span class="delete-btn" onclick="eliminarCITE(${index})">Eliminar</span></td>
+          </tr>
+        `;
+      });
+    }
+
+    function generarCITE() {
+      const nombre = document.getElementById('nombreDocumento').value.trim();
+      if (!nombre) {
+        alert("Por favor, escribe el nombre del documento.");
+        return;
+      }
+
+      const id = cites.length + 1;
+      const año = new Date().getFullYear();
+      const fecha = new Date().toLocaleString();
+      const codigo = `CITE: SUP.ATAJ/TOT ${id}/${año}`;
+      cites.push({ codigo, nombre, fecha });
+      guardarCites();
+      mostrarCites();
+      document.getElementById('nombreDocumento').value = '';
+    }
+
+    function eliminarCITE(index) {
+      if (confirm('¿Deseas eliminar este CITE?')) {
+        cites.splice(index, 1);
+        guardarCites();
+        mostrarCites();
+      }
+    }
+
+    mostrarCites();
+  </script>
+
 </body>
 </html>
